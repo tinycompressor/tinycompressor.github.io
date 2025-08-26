@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiny Compressor - Free Online Image Compressor | Reduce File Size Without Quality Loss</title>
+    <meta name="description" content="Compress JPEG and PNG images online for free. Reduce file size up to 90% while maintaining quality. Fast, secure, and works entirely in your browser. No uploads to servers.">
+    <meta name="keywords" content="image compressor, compress images, reduce file size, JPEG compressor, PNG compressor, online image optimizer, free image compression, image resizer">
+    <meta name="author" content="Tiny Compressor">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Tiny Compressor - Free Online Image Compressor">
+    <meta property="og:description" content="Compress JPEG and PNG images online for free. Reduce file size up to 90% while maintaining quality.">
+    <meta property="og:type" content="website">
+    <!--<meta property="og:url" content="https://tinycompressor.com"> -->
+    <meta property="og:image" content="logo.png">
+    <meta property="og:site_name" content="Tiny Compressor">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tiny Compressor - Free Online Image Compressor">
+    <meta name="twitter:description" content="Compress JPEG and PNG images online for free. Reduce file size up to 90% while maintaining quality.">
+    <meta name="twitter:image" content="logo.png">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#4a6bff">
+    <meta name="msapplication-TileColor" content="#4a6bff">
+    <!-- <link rel="canonical" href="https://tinycompressor.com"> -->
+    
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="logo.png" alt="Tiny Compressor - FREE FOREVER" class="logo">
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#how-it-works">How it Works</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+    <nav class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#how-it-works">How it Works</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <h1>Maximize Your Space,<br>Minimize File Size</h1>
+            <p class="hero-subtitle">Optimize images without compromising quality<br>Free, fast, and secure - all in your browser</p>
+
+            <div class="upload-section">
+                <div class="upload-area" id="dropZone">
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <i class="material-icons">cloud_upload</i>
+                        </div>
+                        <p>Drag & Drop your files here</p>
+                        <p class="or-text">or</p>
+                        <label for="fileInput" class="browse-btn">Browse Files</label>
+                        <input type="file" id="fileInput" accept="image/jpeg,image/png" multiple hidden>
+                        <p class="file-limit">Supports JPEG & PNG (Max 10MB each)</p>
+                    </div>
+                </div>
+
+                <div class="file-list-panel" id="fileListPanel" style="display: none;">
+                    <div class="file-list-header">
+                        <h3>Selected Files</h3>
+                        <button id="removeAllBtn" class="remove-all-btn">Remove All</button>
+                    </div>
+                    <div id="fileList" class="file-list"></div>
+                </div>
+            </div>
+
+            <div class="compression-section">
+                <div class="settings-panel">
+                    <h3>Compression Settings</h3>
+                    <div class="setting">
+                        <label for="qualitySlider">Quality: <span id="qualityValue">80%</span></label>
+                        <input type="range" id="qualitySlider" min="0" max="100" value="80">
+                    </div>
+                    <div class="setting">
+                        <label for="maxWidth">Max Width (px)</label>
+                        <input type="number" id="maxWidth" placeholder="Original width">
+                    </div>
+                    <button id="compressBtn" disabled>Compress Images</button>
+                </div>
+
+                <div class="results-panel" id="resultsPanel">
+                    <div class="results-header">
+                        <h3>Total Savings: <span id="totalSavings">0%</span></h3>
+                        <div class="view-toggle">
+                            <button id="listViewBtn" class="view-btn active" title="List View">
+                                <i class="material-icons">view_list</i>
+                            </button>
+                            <button id="gridViewBtn" class="view-btn" title="Grid View">
+                                <i class="material-icons">grid_view</i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="imageResults" class="image-results grid-view"></div>
+                    <div class="results-actions">
+                        <button id="downloadAllBtn" class="download-all-btn" disabled>Download All</button>
+                        <button id="clearAllBtn" class="clear-all-btn" disabled>Clear All Images</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Loading Animation Overlay -->
+        <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="loading-container">
+                <div class="loading-animation">
+                    <div class="loading-ring"></div>
+                    <div class="loading-ring"></div>
+                    <div class="loading-ring"></div>
+                </div>
+                <div class="loading-text">
+                    <h3>Compressing Images...</h3>
+                    <p>Please wait while we optimize your images</p>
+                    <div class="loading-progress">
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill"></div>
+                        </div>
+                        <span id="progressText">0%</span>
+                    </div>
+                </div>
+            </div>
+            <div id="completionMessage" class="completion-message hidden">
+                <div class="completion-icon">✨</div>
+                <h3>Compression Completed!</h3>
+                <p>Your images have been successfully optimized</p>
+            </div>
+        </div>
+
+        <section id="how-it-works" class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="material-icons">upload</i>
+                    </div>
+                    <h3>1. Upload Images</h3>
+                    <p>Drag and drop or browse to select your JPEG and PNG images</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="material-icons">compress</i>
+                    </div>
+                    <h3>2. Compress</h3>
+                    <p>Our browser-based algorithm reduces file size while maintaining quality</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="material-icons">download</i>
+                    </div>
+                    <h3>3. Download</h3>
+                    <p>Download your optimized images individually or all at once</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <h2>Features</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="material-icons">security</i>
+                    </div>
+                    <h3>100% Private</h3>
+                    <p>All compression happens in your browser. Your images never leave your device.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="material-icons">flash_on</i>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Compress images in seconds with our optimized algorithms. No waiting, no delays.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="material-icons">tune</i>
+                    </div>
+                    <h3>Customizable</h3>
+                    <p>Adjust quality and maximum dimensions to fit your needs.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">
+                        <i class="material-icons">layers</i>
+                    </div>
+                    <h3>Batch Processing</h3>
+                    <p>Compress multiple images at once. Save time with our efficient batch processing.</p>
+                </div>
+            </div>
+        </section>
+        <section id="contact" class="contact">
+            <h2>Contact Us</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p>Have questions or feedback about Tiny Compressor? We'd love to hear from you!</p>
+                    <div class="contact-item">
+                        <i class="material-icons">email</i>
+                        <span>freestahosting@gmail.com</span>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Send a Message</h3>
+                    <form id="contactForm" method="POST" action="mailto:freestahosting@gmail.com">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="developer-section">
+            <h3>💝 Developer's Note</h3>
+            <div class="developer-content">
+                <div class="developer-image">
+                    <img src="developer.jpg" alt="Priyanka - Developer" class="developer-photo">
+
+                </div>
+                <div class="developer-message">
+                    <p>I created Tiny Compressor to make image compression simple and free for everyone. Every feature was designed with care to help you optimize your images while preserving their quality.<br><br>Thank you for using Tiny Compressor! 🙏<img src="signature.png" alt="Developer's Signature" class="signature-image"></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Tiny Compressor. Made with love <span class="heart">❤️</span>. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="material-icons">arrow_upward</i>
+    </a>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.0/browser-image-compression.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
