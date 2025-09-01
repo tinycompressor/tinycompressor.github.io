@@ -114,12 +114,30 @@ header {
     display: none;
     background: none;
     border: none;
-    color: black;
+    color: #333;
     font-size: 1.5rem;
     cursor: pointer;
     padding: 0.5rem;
-    position: relative;
-    z-index: 1001;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10000;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.mobile-menu-btn:hover {
+    background-color: #f0f0f0;
+    color: #4a6bff;
+}
+
+.mobile-menu-btn:hover .hamburger span {
+    background: #4a6bff;
 }
 
 .mobile-menu-btn .hamburger {
@@ -157,25 +175,7 @@ header {
     top: 16px;
 }
 
-.mobile-menu-btn.open .hamburger span:nth-child(1) {
-    top: 8px;
-    width: 0%;
-    left: 50%;
-}
-
-.mobile-menu-btn.open .hamburger span:nth-child(2) {
-    transform: rotate(45deg);
-}
-
-.mobile-menu-btn.open .hamburger span:nth-child(3) {
-    transform: rotate(-45deg);
-}
-
-.mobile-menu-btn.open .hamburger span:nth-child(4) {
-    top: 8px;
-    width: 0%;
-    left: 50%;
-}
+/* Hamburger button remains unchanged when menu is open */
 
 .mobile-nav {
     position: fixed;
@@ -192,6 +192,35 @@ header {
 
 .mobile-nav.open {
     right: 0;
+}
+
+.mobile-nav-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    z-index: 1001;
+}
+
+.mobile-close-btn {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.mobile-close-btn:hover {
+    background-color: #f0f0f0;
+    color: #4a6bff;
 }
 
 .mobile-nav ul {
@@ -1394,6 +1423,95 @@ button:disabled {
     background-color: #3a5ae8;
 }
 
+.submit-btn.loading {
+    background-color: #6c757d;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.submit-btn.loading:hover {
+    background-color: #6c757d;
+}
+
+.spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Thank You Message */
+.thank-you-message {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    border: 2px solid #28a745;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    margin-top: 1rem;
+    animation: slideIn 0.5s ease-out;
+}
+
+.thank-you-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.thank-you-content .material-icons {
+    font-size: 3rem;
+    color: #28a745;
+}
+
+.thank-you-content h4 {
+    margin: 0;
+    color: #155724;
+    font-size: 1.5rem;
+}
+
+.thank-you-content p {
+    margin: 0;
+    color: #155724;
+    font-size: 1rem;
+}
+
+.send-another-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.send-another-btn:hover {
+    background-color: #218838;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Footer */
 footer {
     background-color: #e8e8e8;
@@ -1617,7 +1735,17 @@ footer {
     }
     
     .mobile-menu-btn {
-        display: block;
+        display: flex;
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 10000;
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
     }
     
     .steps, .feature-grid {

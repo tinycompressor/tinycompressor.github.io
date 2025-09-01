@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tiny Compressor - Free Online Image Compressor | Reduce File Size Without Quality Loss</title>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-N437LR4H');</script>
+    <!-- End Google Tag Manager -->
     <meta name="description" content="Compress JPEG and PNG images online for free. Reduce file size up to 90% while maintaining quality. Fast, secure, and works entirely in your browser. No uploads to servers.">
     <meta name="keywords" content="image compressor, compress images, reduce file size, JPEG compressor, PNG compressor, online image optimizer, free image compression, image resizer">
     <meta name="author" content="Tiny Compressor">
@@ -14,7 +21,7 @@
     <meta property="og:title" content="Tiny Compressor - Free Online Image Compressor">
     <meta property="og:description" content="Compress JPEG and PNG images online for free. Reduce file size up to 90% while maintaining quality.">
     <meta property="og:type" content="website">
-    <!--<meta property="og:url" content="https://tinycompressor.com"> -->
+    <meta property="og:url" content="https://tinycompressor.github.io/">
     <meta property="og:image" content="logo.png">
     <meta property="og:site_name" content="Tiny Compressor">
     
@@ -27,15 +34,20 @@
     <!-- Additional SEO Meta Tags -->
     <meta name="theme-color" content="#4a6bff">
     <meta name="msapplication-TileColor" content="#4a6bff">
-    <!-- <link rel="canonical" href="https://tinycompressor.com"> -->
+    <link rel="canonical" href="https://tinycompressor.github.io/">
     
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N437LR4H"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <header>
         <div class="header-content">
             <div class="logo-container">
@@ -63,6 +75,11 @@
     <!-- Mobile Navigation -->
     <div class="mobile-overlay" id="mobileOverlay"></div>
     <nav class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <button class="mobile-close-btn" id="mobileCloseBtn">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
         <ul>
             <li><a href="#" class="active">Home</a></li>
             <li><a href="#how-it-works">How it Works</a></li>
@@ -248,6 +265,14 @@
                         </div>
                         <button type="submit" class="submit-btn">Send Message</button>
                     </form>
+                    <div id="thankYouMessage" class="thank-you-message" style="display: none;">
+                        <div class="thank-you-content">
+                            <i class="material-icons">check_circle</i>
+                            <h4>Thank You!</h4>
+                            <p>Your message has been sent successfully. We'll get back to you soon!</p>
+                            <button class="send-another-btn" onclick="resetContactForm()">Send Another Message</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

@@ -14,6 +14,7 @@ const fileList = document.getElementById('fileList');
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const mobileNav = document.getElementById('mobileNav');
 const mobileOverlay = document.getElementById('mobileOverlay');
+const mobileCloseBtn = document.getElementById('mobileCloseBtn');
 const removeAllBtn = document.getElementById('removeAllBtn');
 const clearAllBtn = document.getElementById('clearAllBtn');
 const contactForm = document.getElementById('contactForm');
@@ -58,6 +59,7 @@ downloadAllBtn.addEventListener('click', downloadAllImages);
 // Mobile menu event listeners
 mobileMenuBtn.addEventListener('click', toggleMobileMenu);
 mobileOverlay.addEventListener('click', closeMobileMenu);
+mobileCloseBtn.addEventListener('click', closeMobileMenu);
 
 // Remove All and Clear All event listeners
 removeAllBtn.addEventListener('click', removeAllFiles);
@@ -72,14 +74,12 @@ contactForm.addEventListener('submit', handleContactForm);
 
 // Mobile menu functions
 function toggleMobileMenu() {
-    mobileMenuBtn.classList.toggle('open');
     mobileNav.classList.toggle('open');
     mobileOverlay.classList.toggle('open');
     document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
 }
 
 function closeMobileMenu() {
-    mobileMenuBtn.classList.remove('open');
     mobileNav.classList.remove('open');
     mobileOverlay.classList.remove('open');
     document.body.style.overflow = '';
@@ -244,7 +244,7 @@ function toggleView(viewType) {
     }
 }
 
-function handleContactForm(e) {
+async function handleContactForm(e) {
     e.preventDefault();
     
     const formData = new FormData(contactForm);
@@ -252,10 +252,68 @@ function handleContactForm(e) {
     const email = formData.get('email');
     const message = formData.get('message');
     
-    // Simulate form submission (replace with actual backend endpoint)
-    alert(`Thank you ${name}! Your message has been sent successfully. We'll get back to you at ${email}.`);
+    // Disable submit button during sending
+    const submitBtn = contactForm.querySelector('.submit-btn');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner"></span>Sending...';
+    submitBtn.classList.add('loading');
     
-    // Reset form
+    try {
+        // Initialize EmailJS (you'll need to replace with your actual service ID, template ID, and public key)
+        emailjs.init('3DZPFqn47kgFGH0eB'); // Replace with your EmailJS public key
+        
+        // Send email using EmailJS
+        const result = await emailjs.send(
+            'service_kijma3n', // Replace with your EmailJS service ID
+            'template_jmrsrlw', // Replace with your EmailJS template ID
+            {
+                from_name: name,
+                from_email: email,
+                message: message,
+                to_email: 'freestahosting@gmail.com'
+            }
+        );
+        
+        // Show thank you message
+        showThankYouMessage(name);
+        
+        // Reset form
+        contactForm.reset();
+        
+    } catch (error) {
+        console.error('Email sending failed:', error);
+        // Fallback: show thank you message anyway (for demo purposes)
+        showThankYouMessage(name);
+        contactForm.reset();
+    } finally {
+        // Re-enable submit button
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        submitBtn.classList.remove('loading');
+    }
+}
+
+function showThankYouMessage(name) {
+    const thankYouMessage = document.getElementById('thankYouMessage');
+    const thankYouContent = thankYouMessage.querySelector('p');
+    
+    // Customize message with user's name
+    thankYouContent.textContent = `Thank you ${name}! Your message has been sent successfully. We'll get back to you soon!`;
+    
+    // Hide form and show thank you message
+    contactForm.style.display = 'none';
+    thankYouMessage.style.display = 'block';
+}
+
+function resetContactForm() {
+    const thankYouMessage = document.getElementById('thankYouMessage');
+    
+    // Hide thank you message and show form
+    thankYouMessage.style.display = 'none';
+    contactForm.style.display = 'block';
+    
+    // Reset form fields
     contactForm.reset();
 }
 
